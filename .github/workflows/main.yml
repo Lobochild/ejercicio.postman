@@ -10,19 +10,23 @@ on:
 
 jobs:
   postman_tests:
-    runs-on: ubuntu-latest  # Usaremos una máquina virtual con Ubuntu
+    runs-on: ubuntu-24.04  # Usaremos Ubuntu 24.04 para evitar la advertencia
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Este paso es para obtener el código del repositorio
+        uses: actions/checkout@v2  # Este paso obtiene el código de tu repositorio
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2  # Este paso instala Node.js en la máquina virtual
+        uses: actions/setup-node@v2  # Instala Node.js en la máquina virtual
         with:
-          node-version: '14'  # Usamos Node.js versión 14 (puedes usar otra si prefieres)
+          node-version: '14'  # Usamos Node.js versión 14
+
+      - name: Install dependencies
+        run: npm install  # Instala todas las dependencias definidas en package.json
 
       - name: Install Newman (Postman CLI)
-        run: npm install -g newman  # Instala Newman globalmente
+        run: npm install -g newman  # Instala Newman globalmente para ejecutar las pruebas de Postman
 
       - name: Run Postman Tests
         run: newman run Rick_and_Morty_API.postman_collection.json  # Ejecuta las pruebas de Postman
+
