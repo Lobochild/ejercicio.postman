@@ -1,0 +1,28 @@
+name: Run Postman Tests
+
+on:
+  push:
+    branches:
+      - main  # Ejecutar la pipeline cuando hagas un push en la rama "main"
+  pull_request:
+    branches:
+      - main  # Ejecutar la pipeline cuando se cree un pull request hacia la rama "main"
+
+jobs:
+  postman_tests:
+    runs-on: ubuntu-latest  # Usaremos una máquina virtual con Ubuntu
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2  # Este paso es para obtener el código del repositorio
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2  # Este paso instala Node.js en la máquina virtual
+        with:
+          node-version: '14'  # Usamos Node.js versión 14 (puedes usar otra si prefieres)
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman  # Instala Newman globalmente
+
+      - name: Run Postman Tests
+        run: newman run Rick_and_Morty_API.postman_collection.json  # Ejecuta las pruebas de Postman
