@@ -3,30 +3,31 @@ name: Run Postman Tests
 on:
   push:
     branches:
-      - main  # Ejecutar la pipeline cuando hagas un push en la rama "main"
+      - main
   pull_request:
     branches:
-      - main  # Ejecutar la pipeline cuando se cree un pull request hacia la rama "main"
+      - main
 
 jobs:
   postman_tests:
-    runs-on: ubuntu-24.04  # Usaremos Ubuntu 24.04 para evitar la advertencia
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2  # Este paso obtiene el código de tu repositorio
+        uses: actions/checkout@v2
 
-      -  name: Set up Node.js 16.x
+      - name: Set up Node.js 16
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Cambiar de 14 a 16
+          node-version: '16'  # Cambia la versión de Node.js a 16
 
       - name: Install dependencies
-        run: npm install  # Instala todas las dependencias definidas en package.json
+        run: npm install
 
       - name: Install Newman (Postman CLI)
-        run: npm install -g newman  # Instala Newman globalmente para ejecutar las pruebas de Postman
+        run: npm install -g newman
 
       - name: Run Postman Tests
-        run: newman run "Rick and Morty API.postman_collection.json"  # Ejecuta las pruebas de Postman
+        run: newman run "Rick and Morty API.postman_collection.json"
+
 
