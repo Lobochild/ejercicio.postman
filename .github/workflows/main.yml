@@ -28,5 +28,5 @@ jobs:
         run: npm install -g newman  # Instala Newman globalmente para ejecutar las pruebas de Postman
 
       - name: Run Postman Tests
-        run: newman run Rick_and_Morty_API.postman_collection.json  # Ejecuta las pruebas de Postman
+        run: newman run "Rick and Morty API.postman_collection.json"  # Ejecuta las pruebas de Postman
 
