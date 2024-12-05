@@ -1,0 +1,36 @@
+name: Run Postman Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Paso 1: Checkout del código
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Paso 2: Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      # Paso 3: Instalar Newman (CLI de Postman)
+      - name: Install Newman
+        run: npm install -g newman
+
+      # Paso 4: Ejecutar la colección de Postman
+      - name: Run Postman Collection
+        run: |
+          newman run ejercicio.postman/Rick and Morty API.postman_collection.json
+            --environment
+            --reporters cli
+
