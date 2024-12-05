@@ -1,0 +1,229 @@
+{
+	"info": {
+		"_postman_id": "6dfdd6cc-a38e-44db-b0a8-1e4897d339c5",
+		"name": "Rick and Morty API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40196860"
+	},
+	"item": [
+		{
+			"name": "todos.los.personajes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verificar que el estado HTTP sea 200\r",
+							"pm.test(\"Estado 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Verificar que la respuesta esté en formato JSON\r",
+							"pm.test(\"La respuesta es JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// Verificar que el campo \"results\" es un array\r",
+							"pm.test(\"El campo 'results' es un array\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results).to.be.an(\"array\");\r",
+							"});\r",
+							"\r",
+							"// Verificar que al menos un personaje tiene un nombre\r",
+							"pm.test(\"Al menos un personaje tiene un nombre\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results[0]).to.have.property(\"name\");\r",
+							"});\r",
+							"\r",
+							"// Verificar que la cantidad de personajes sea mayor a 0\r",
+							"pm.test(\"Hay más de 0 personajes\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.info.count).to.be.greaterThan(0);\r",
+							"});\r",
+							"\r",
+							"// Verificar que los personajes tienen campos obligatorios\r",
+							"pm.test(\"Los personajes tienen campos obligatorios\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    jsonData.results.forEach((character) => {\r",
+							"        pm.expect(character).to.have.property(\"id\");\r",
+							"        pm.expect(character).to.have.property(\"name\");\r",
+							"        pm.expect(character).to.have.property(\"status\");\r",
+							"        pm.expect(character).to.have.property(\"species\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rickandmortyapi.com/api/character",
+					"protocol": "https",
+					"host": [
+						"rickandmortyapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"character"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "un.solo.personaje",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verificar que el estado HTTP sea 200\r",
+							"pm.test(\"Estado 200 OK\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Verificar que la respuesta esté en formato JSON\r",
+							"pm.test(\"La respuesta es JSON\", function () {\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"// Verificar que los campos principales existen\r",
+							"pm.test(\"El personaje tiene los campos esperados\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"id\");\r",
+							"    pm.expect(jsonData).to.have.property(\"name\");\r",
+							"    pm.expect(jsonData).to.have.property(\"status\");\r",
+							"    pm.expect(jsonData).to.have.property(\"species\");\r",
+							"    pm.expect(jsonData).to.have.property(\"gender\");\r",
+							"    pm.expect(jsonData).to.have.property(\"origin\");\r",
+							"    pm.expect(jsonData).to.have.property(\"location\");\r",
+							"});\r",
+							"\r",
+							"// Verificar que el nombre es \"Rick Sanchez\"\r",
+							"pm.test(\"El personaje es Rick Sanchez\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"Rick Sanchez\");\r",
+							"});\r",
+							"\r",
+							"// Verificar que el ID sea igual al proporcionado\r",
+							"pm.test(\"El ID coincide con el solicitado\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.id).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"// Verificar que la URL del personaje sea válida\r",
+							"pm.test(\"La URL del personaje es válida\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.url).to.match(/^https:\\/\\/rickandmortyapi\\.com\\/api\\/character\\/\\d+$/);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rickandmortyapi.com/api/character/360",
+					"protocol": "https",
+					"host": [
+						"rickandmortyapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"character",
+						"360"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "filtrar.personajes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Verificar que todos los resultados tienen el estado \"alive\"\r",
+							"pm.test(\"Todos los personajes están vivos\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    jsonData.results.forEach((character) => {\r",
+							"        pm.expect(character.status).to.eql(\"Alive\");\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"// Comprobar que al menos un personaje tiene el nombre que incluye \"Rick\"\r",
+							"pm.test(\"Al menos un personaje contiene 'Rick' en su nombre\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    const hasRick = jsonData.results.some((character) => \r",
+							"        character.name.toLowerCase().includes(\"rick\")\r",
+							"    );\r",
+							"    pm.expect(hasRick).to.be.true;\r",
+							"});\r",
+							"\r",
+							"// Verificar que cada personaje tiene una propiedad \"origin\" con un nombre definido\r",
+							"pm.test(\"Todos los personajes tienen un origen definido\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    jsonData.results.forEach((character) => {\r",
+							"        pm.expect(character).to.have.property(\"origin\");\r",
+							"        pm.expect(character.origin).to.have.property(\"name\");\r",
+							"        pm.expect(character.origin.name).to.not.be.empty;\r",
+							"    });\r",
+							"});\r",
+							"\r",
+							"// Verificar que la propiedad \"results\" contiene una lista y no está vacía\r",
+							"pm.test(\"La respuesta contiene una lista de personajes\", function () {\r",
+							"    const jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.property(\"results\");\r",
+							"    pm.expect(jsonData.results).to.be.an(\"array\").that.is.not.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rickandmortyapi.com/api/character/?name=rick&status=alive",
+					"protocol": "https",
+					"host": [
+						"rickandmortyapi",
+						"com"
+					],
+					"path": [
+						"api",
+						"character",
+						""
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "rick"
+						},
+						{
+							"key": "status",
+							"value": "alive"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
