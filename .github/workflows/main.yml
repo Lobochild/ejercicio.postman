@@ -16,10 +16,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2  # Este paso obtiene el código de tu repositorio
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2  # Instala Node.js en la máquina virtual
+      -  name: Set up Node.js 16.x
+        uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Usamos Node.js versión 14
+          node-version: '16' # Cambiar de 14 a 16
 
       - name: Install dependencies
         run: npm install  # Instala todas las dependencias definidas en package.json
